@@ -103,7 +103,7 @@
               // Load media with its Metadata when the video player is done instantiating.
               videojs('player').loadMedia({
                   id: 'XYXYXYXY',
-                  src: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4',
+                  src: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4',
                   title: 'Subaru Outback On Street And Dirt',
                   description: 'Smoking Tire takes the all-new Subaru Outback to the highest point we can find in hopes our customer-appreciation Balloon Launch will get some free T-shirts into the hands of our viewers.',
                   type: 'video/mp4'
@@ -129,5 +129,11 @@
           pbjs.requestBids(adUnits);
       });
   </script>
+</head>
+<body>
+    <div class="example-video-container">
+        <video id="player" class="vjs-big-play-centered"></video>
+      </div>
+        
 </body>
 </html>
