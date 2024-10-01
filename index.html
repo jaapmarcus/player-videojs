@@ -99,6 +99,7 @@
           pbjs.addAdUnits(adUnits);
 
           pbjs.onEvent('videoSetupComplete', e => {
+            console.log(e);
               // Load media with its Metadata when the video player is done instantiating.
               videojs('player').loadMedia({
                   id: 'XYXYXYXY',
