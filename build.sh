@@ -35,7 +35,11 @@ echo "Files copied to temp folder"
     cat ./temp/videojs-contrib-ads.css
     cat ./temp/videojs.ima.css
 } > ./dist/video-js.min.css
-
 echo "Files merged to dist folder"
 
+
+cp ./launch.js ./dist/launch.js
+echo "Copy launch.js to dist folder"
+
 scp -r ./dist/ root@ad.adsight.nl:/var/www/html/videojs/
+echo "Files copied to server"
