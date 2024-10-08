@@ -41,5 +41,5 @@ echo "Files merged to dist folder"
 cp ./launch.js ./dist/launch.js
 echo "Copy launch.js to dist folder"
 
-scp -r ./dist/ root@ad.adsight.nl:/var/www/html/videojs/
+scp ./dist/* root@ad.adsight.nl:/var/www/html/videojs/
 echo "Files copied to server"
