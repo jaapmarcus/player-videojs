@@ -1,11 +1,16 @@
 window.onload = function () {
   loadAnchor();
+  preloadPreBid();
 };
 
-var pbjs = pbjs || {};
+function preloadPreBid() {
+  console.log('Preloading Prebid');
+  var pbjs = pbjs || {};
       pbjs.que = pbjs.que || [];
-
+  console.log('Prebid is preloading');
+  console.log(pbjs);
       pbjs.que.push(function () {
+      console.log('test');
           pbjs.setConfig({
               video: {
                   providers: [{
@@ -38,14 +43,14 @@ var pbjs = pbjs || {};
                   allowTargetingKeys: ['BIDDER', 'AD_ID', 'PRICE_BUCKET', 'SIZE', 'DEAL', 'SOURCE', 'FORMAT', 'UUID', 'CACHE_ID', 'CACHE_HOST', 'ADOMAIN']
               },
           });
-
+          console.log(adUnits);
           pbjs.addAdUnits(adUnits);
-
+          console,log('Prebid is loaded');
           pbjs.onEvent('videoSetupComplete', e => {
             console.log(e);
               // Load media with its Metadata when the video player is done instantiating.
               videojs('adsight-video').loadMedia({
-                  id: 'adsight-video',
+                  id: 'XYXYXYXY',
                   src: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4',
                   title: 'Subaru Outback On Street And Dirt',
                   description: 'Smoking Tire takes the all-new Subaru Outback to the highest point we can find in hopes our customer-appreciation Balloon Launch will get some free T-shirts into the hands of our viewers.',
@@ -71,9 +76,8 @@ var pbjs = pbjs || {};
 
           pbjs.requestBids(adUnits);
       });
+}
 
-
-  
 function loadAnchor() {
     console.log(adsight_config);
     //check if adsight_config is defined
@@ -90,12 +94,6 @@ function loadAnchor() {
     div.innerHTML = `<div id="adsight-video-parent"><video id="adsight-video" controls class="video-js" muted="muted" playsinline="playsinline" preload="metadate" fluid="true">
       Your browser does not support the video tag.
       </video></div><div id="adsight-video-title" class="adsight-slider-header-not-active" style="display:none"><div id="adsight-close-button"><a href="" id="adsight-close-link-mobile" height="16px" width="16px"><img src="https://cdn.adsight.nl/close-darker.svg" style="max-height:16px !important" /></a></div></div>`
-    //document.getElementById('adsight-video').src = adsight_config.video[0].url; 
-    videojs('adsight-video').loadMedia({
-        id: 'XYXYXYXY',
-        src: adsight_config.video[0].url,
-        type: 'video/mp4',
-        width: '100%',
-    });
+  
 
 }
