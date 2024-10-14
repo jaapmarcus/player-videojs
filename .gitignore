@@ -1,4 +1,4 @@
 /node_modules
 /videojs-mailonline-
-/temp
-/dist
+/temp/*
+/dist/*
