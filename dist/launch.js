@@ -1,5 +1,5 @@
 window.onload = function () {
-  //loadAnchor();
+  loadAnchor();
  // preloadPreBid();
 };
 
@@ -44,8 +44,11 @@ var adUnits = [{
 
       var pbjs = pbjs || {};
       pbjs.que = pbjs.que || [];
-
-      pbjs.que.push(function () {
+  console.log(adUnits);
+  console.log(pbjs.que);
+  console.log(pbjs.que.push);
+  pbjs.que.push(function () {
+        console.log('Prebid.js loaded');
           pbjs.setConfig({
               video: {
                   providers: [{
@@ -111,7 +114,6 @@ var adUnits = [{
 
           pbjs.requestBids(adUnits);
       });
-
 }
 
 function loadAnchor() {
