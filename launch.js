@@ -5,8 +5,7 @@ adsight_config = {
       { 'url' : 'https://cdn.adsight.nl/Tuazx1jOTUVIsK4kcYFrMiW8iCbJlGlwiBBlLPmu.mp4' }
   ],
   'readtext' : 'Je leest nu:<br />',
-  }
-
+}
 
   var adUnits = [{
       code: '/22999307524/tipsenideetjes.nl/video',
@@ -14,7 +13,7 @@ adsight_config = {
           video: {}
       },
       video: {
-          divId: 'player', // required to indicate which player is being used to render this ad unit.
+          divId: 'adsight-video', // required to indicate which player is being used to render this ad unit.
       },
       bids: [{
           bids: [{
@@ -59,7 +58,7 @@ window.onload = function () {
   div = document.createElement('div');
   div.id = 'adsight-video-container';
   parentNode.insertBefore(div, para[adsight_config.paragraphs]);
-  div.innerHTML = `<div id="adsight-video-parent"><video id="player" controls class="video-js" muted="muted" playsinline="playsinline" preload="metadate" fluid="true">
+  div.innerHTML = `<div id="adsight-video-parent"><video id="adsight-video" controls class="video-js" muted="muted" playsinline="playsinline" preload="metadate" fluid="true">
     Your browser does not support the video tag.
     </video></div><div id="adsight-video-title" class="adsight-slider-header-not-active" style="display:none"><div id="adsight-close-button"><a href="" id="adsight-close-link-mobile" height="16px" width="16px"><img src="https://cdn.adsight.nl/close-darker.svg" style="max-height:16px !important" /></a></div></div>`
 
@@ -68,7 +67,7 @@ window.onload = function () {
     pbjs.setConfig({
         video: {
             providers: [{
-                divId: 'player',
+                divId: 'adsight-video',
                 vendorCode: 2, // videojs vendorCode
                 playerConfig: {
                     params: {
@@ -104,14 +103,12 @@ window.onload = function () {
       console.log(e);
       console.log(adsight_config);
         // Load media with its Metadata when the video player is done instantiating.
-        videojs('player').loadMedia({
+        videojs('adsight-video').loadMedia({
             id: 'XYXYXYXY',
-            src: adsight_config.video[0].url,
-            title: 'Subaru Outback On Street And Dirt',
-            description: 'Smoking Tire takes the all-new Subaru Outback to the highest point we can find in hopes our customer-appreciation Balloon Launch will get some free T-shirts into the hands of our viewers.',
+            src: adsight_config.video[Math.floor(Math.random() * adsight_config.video.length)].url,
             type: 'video/mp4'
         });
-        videojs('player').play(); 
+        videojs('adsight-video').play(); 
     });
 
     pbjs.onEvent('videoSetupFailed', e => {
