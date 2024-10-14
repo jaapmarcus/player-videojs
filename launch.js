@@ -1,6 +1,6 @@
 window.onload = function () {
-  loadAnchor();
- // preloadPreBid();
+  //loadAnchor();
+ preloadPreBid();
 };
 
 function preloadPreBid() {

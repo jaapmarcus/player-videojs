@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ad.adsight.nl/videojs/prebid.js"></script>
     <script src="https://ad.adsight.nl/videojs/video.min.js"></script>
-    <script src="https://ad.adsight.nl/videojs/launch.js"></script>
+    <!--<script src="https://ad.adsight.nl/videojs/launch.js"></script>-->
     <link href="https://ad.adsight.nl/videojs/video-js.min.css" rel="stylesheet">
     <link href="https://ad.adsight.nl/videojs/slider.css" rel="stylesheet">
 
@@ -19,6 +19,114 @@
             ],
             'readtext' : 'Je leest nu:<br />',
             }
+
+
+            var adUnits = [{
+                code: '/22999307524/tipsenideetjes.nl/video',
+                mediaTypes: {
+                    video: {}
+                },
+                video: {
+                    divId: 'player', // required to indicate which player is being used to render this ad unit.
+                },
+                bids: [{
+                    bids: [{
+        bidder: 'rubicon',
+        mediaTypes: {
+            video: {
+                context: 'outstream',
+                playerSize: [[640, 480]],
+                mimes: ['video/x-ms-wmv', 'video/mp4'],
+                protocols: [1, 2, 3, 4, 5, 6, 7, 8],
+                playbackmethod: [6],
+                skip: 1,
+                linearity: 2
+            }
+        },
+        params: {
+            accountId: 24676,
+            siteId: 564248,
+            zoneId: 3567354
+        }
+    }, {
+        bidder: 'teads',
+        params: {
+            pageId: 148824,
+            placementId: 162940
+        }
+    }]
+                }]
+            }];
+
+      var pbjs = pbjs || {};
+      pbjs.que = pbjs.que || [];
+
+      pbjs.que.push(function () {
+          pbjs.setConfig({
+              video: {
+                  providers: [{
+                      divId: 'player',
+                      vendorCode: 2, // videojs vendorCode
+                      playerConfig: {
+                          params: {
+                              adPluginConfig: {
+                                  numRedirects: 10,
+                                  adLabel: "Using Prebid Video Module!"
+                              },
+                              vendorConfig: {
+                                  controls: true,
+                                  autoplay: false,
+                                  preload: "auto",
+                              }
+                          }
+                      },
+                      // Configure your Ad Server Integration
+                      adServer: {
+                          vendorCode: 'gam',
+                          baseAdTagUrl: 'https://pubads.g.doubleclick.net/gampad/ads?iu=/22999307524/tipsenideetjes.nl/video&description_url=https%3A%2F%2Fwww.tipsenweetjes.nl%2F&tfcd=0&npa=0&sz=400x300%7C640x480&gdfp_req=1&unviewed_position_start=1&output=vast&env=vp&impl=s&correlator='
+                      },
+                  },]
+              },
+              cache: {
+                  url: 'https://prebid.adnxs.com/pbc/v1/cache'
+              },
+              targetingControls: {
+                  allowTargetingKeys: ['BIDDER', 'AD_ID', 'PRICE_BUCKET', 'SIZE', 'DEAL', 'SOURCE', 'FORMAT', 'UUID', 'CACHE_ID', 'CACHE_HOST', 'ADOMAIN']
+              },
+          });
+
+          pbjs.addAdUnits(adUnits);
+
+          pbjs.onEvent('videoSetupComplete', e => {
+            console.log(e);
+              // Load media with its Metadata when the video player is done instantiating.
+              videojs('player').loadMedia({
+                  id: 'XYXYXYXY',
+                  src: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4',
+                  title: 'Subaru Outback On Street And Dirt',
+                  description: 'Smoking Tire takes the all-new Subaru Outback to the highest point we can find in hopes our customer-appreciation Balloon Launch will get some free T-shirts into the hands of our viewers.',
+                  type: 'video/mp4'
+              });
+          });
+
+          pbjs.onEvent('videoSetupFailed', e => {
+              console.log('The player setup failed: ', e);
+          });
+
+          pbjs.onEvent('videoAdRequest', (e) => {
+              console.log('An ad request was made: ', e);
+          });
+
+          pbjs.onEvent('videoBidError', e => {
+              console.log('An Ad Error came from a Bid: ', e);
+          });
+
+          pbjs.onEvent('videoBidImpression', e => {
+              console.log('An Ad Impression came from a Bid: ', e);
+          });
+
+          pbjs.requestBids(adUnits);
+      });
     </script>
     <title>Player test</title>
     <style>
