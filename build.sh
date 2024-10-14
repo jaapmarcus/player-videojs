@@ -14,11 +14,9 @@ if [ -f './node_modules/' ]; then
     exit;
 fi
 
-cp ./node_modules/videojs-ima/dist/videojs.ima.js ./temp/
 cp ./node_modules/video.js/dist/video.min.js ./temp/
 cp ./node_modules/videojs-contrib-ads/dist/videojs.ads.min.js ./temp/
-
-
+cp ./node_modules/videojs-ima/dist/videojs.ima.js ./temp/
 
 cp ./node_modules/video.js/dist/video-js.min.css ./temp/
 cp ./node_modules/videojs-contrib-ads/dist/videojs-contrib-ads.css ./temp/

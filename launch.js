@@ -6,7 +6,7 @@ window.onload = function () {
 function preloadPreBid() {
   var pbjs = pbjs || {};
       pbjs.que = pbjs.que || [];
-
+      console.log('Prebid.js loaded');  
       pbjs.que.push(function () {
           pbjs.setConfig({
               video: {
