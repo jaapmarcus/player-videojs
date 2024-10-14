@@ -1,13 +1,13 @@
+//const { default: videojs } = require("video.js");
+
 window.onload = function () {
-  //loadAnchor();
- preloadPreBid();
+//  preloadPreBid();
+//  console.log('Prebid loaded'); 
 };
+console.log('Prebid loaded');
 
 var pbjs = pbjs || {};
 pbjs.que = pbjs.que || [];
-
-function preloadPreBid() {
-
 
   pbjs.que.push(function () {
       pbjs.setConfig({
@@ -75,7 +75,6 @@ function preloadPreBid() {
 
       pbjs.requestBids(adUnits);
   });
-}
 
 function loadAnchor() {
     /*console.log(adsight_config);
