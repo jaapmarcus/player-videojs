@@ -1,16 +1,51 @@
 window.onload = function () {
-  loadAnchor();
-  preloadPreBid();
+  //loadAnchor();
+ // preloadPreBid();
 };
 
 function preloadPreBid() {
-  console.log('Preloading Prebid');
-  var pbjs = pbjs || {};
+
+var adUnits = [{
+                code: '/22999307524/tipsenideetjes.nl/video',
+                mediaTypes: {
+                    video: {}
+                },
+                video: {
+                    divId: 'player', // required to indicate which player is being used to render this ad unit.
+                },
+                bids: [{
+                    bids: [{
+        bidder: 'rubicon',
+        mediaTypes: {
+            video: {
+                context: 'outstream',
+                playerSize: [[640, 480]],
+                mimes: ['video/x-ms-wmv', 'video/mp4'],
+                protocols: [1, 2, 3, 4, 5, 6, 7, 8],
+                playbackmethod: [6],
+                skip: 1,
+                linearity: 2
+            }
+        },
+        params: {
+            accountId: 24676,
+            siteId: 564248,
+            zoneId: 3567354
+        }
+    }, {
+        bidder: 'teads',
+        params: {
+            pageId: 148824,
+            placementId: 162940
+        }
+    }]
+                }]
+            }];
+
+      var pbjs = pbjs || {};
       pbjs.que = pbjs.que || [];
-  console.log('Prebid is preloading');
-  console.log(pbjs);
+
       pbjs.que.push(function () {
-      console.log('test');
           pbjs.setConfig({
               video: {
                   providers: [{
@@ -43,13 +78,13 @@ function preloadPreBid() {
                   allowTargetingKeys: ['BIDDER', 'AD_ID', 'PRICE_BUCKET', 'SIZE', 'DEAL', 'SOURCE', 'FORMAT', 'UUID', 'CACHE_ID', 'CACHE_HOST', 'ADOMAIN']
               },
           });
-          console.log(adUnits);
+
           pbjs.addAdUnits(adUnits);
-          console,log('Prebid is loaded');
+
           pbjs.onEvent('videoSetupComplete', e => {
             console.log(e);
               // Load media with its Metadata when the video player is done instantiating.
-              videojs('adsight-video').loadMedia({
+              videojs('player').loadMedia({
                   id: 'XYXYXYXY',
                   src: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4',
                   title: 'Subaru Outback On Street And Dirt',
@@ -76,6 +111,7 @@ function preloadPreBid() {
 
           pbjs.requestBids(adUnits);
       });
+
 }
 
 function loadAnchor() {
@@ -91,9 +127,9 @@ function loadAnchor() {
     div = document.createElement('div');
     div.id = 'adsight-video-container';
     parentNode.insertBefore(div, para[adsight_config.paragraphs]);
-    div.innerHTML = `<div id="adsight-video-parent"><video id="adsight-video" controls class="video-js" muted="muted" playsinline="playsinline" preload="metadate" fluid="true">
+    div.innerHTML = `<div id="adsight-video-parent"><video id="player" controls class="video-js" muted="muted" playsinline="playsinline" preload="metadate" fluid="true">
       Your browser does not support the video tag.
       </video></div><div id="adsight-video-title" class="adsight-slider-header-not-active" style="display:none"><div id="adsight-close-button"><a href="" id="adsight-close-link-mobile" height="16px" width="16px"><img src="https://cdn.adsight.nl/close-darker.svg" style="max-height:16px !important" /></a></div></div>`
-  
+  preloadPreBid();
 
 }
