@@ -39,6 +39,9 @@ echo "Files merged to dist folder"
 
 
 cp ./launch.js ./dist/launch.js
+cp ./slider.css ./dist/slider.css
+cp ./dependencies/prebid/prebid.js ./dist/prebid.js
+
 echo "Copy launch.js to dist folder"
 
 scp ./dist/* root@ad.adsight.nl:/var/www/html/videojs/
