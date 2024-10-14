@@ -4,51 +4,10 @@ window.onload = function () {
 };
 
 function preloadPreBid() {
-
-var adUnits = [{
-                code: '/22999307524/tipsenideetjes.nl/video',
-                mediaTypes: {
-                    video: {}
-                },
-                video: {
-                    divId: 'player', // required to indicate which player is being used to render this ad unit.
-                },
-                bids: [{
-                    bids: [{
-        bidder: 'rubicon',
-        mediaTypes: {
-            video: {
-                context: 'outstream',
-                playerSize: [[640, 480]],
-                mimes: ['video/x-ms-wmv', 'video/mp4'],
-                protocols: [1, 2, 3, 4, 5, 6, 7, 8],
-                playbackmethod: [6],
-                skip: 1,
-                linearity: 2
-            }
-        },
-        params: {
-            accountId: 24676,
-            siteId: 564248,
-            zoneId: 3567354
-        }
-    }, {
-        bidder: 'teads',
-        params: {
-            pageId: 148824,
-            placementId: 162940
-        }
-    }]
-                }]
-            }];
-
-      var pbjs = pbjs || {};
+  var pbjs = pbjs || {};
       pbjs.que = pbjs.que || [];
-  console.log(adUnits);
-  console.log(pbjs.que);
-  console.log(pbjs.que.push);
-  pbjs.que.push(function () {
-        console.log('Prebid.js loaded');
+
+      pbjs.que.push(function () {
           pbjs.setConfig({
               video: {
                   providers: [{
