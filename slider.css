@@ -1,6 +1,61 @@
 #adsight-video-container {
-    margin-bottom: 20px;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-  }
+  margin-bottom: 20px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ctp-video {
+  max-width: 900px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.adsight-slider-active {
+  width: 400px;
+  position: fixed;
+  right: 20px;
+  bottom: 100px;
+  z-index: 2000;
+}
+
+#adsight-video-title {
+  float: left;
+  padding: 5px;
+  font-size: 13px;
+  color: 666;
+  width: 50%;
+  z-index: 1000;
+  display: block;
+}
+.adsight-video-title {
+  display: none;
+}
+
+.adsight-slider-header-not-active {
+  display: none !important;
+}
+
+.adsight-video-parent {
+  float: left;
+}
+.adsight-slider-header {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  margin-left: 0px !important;
+  background-color: white;
+  z-index: 10000 !important;
+}
+.adsight-video-parent {
+  width: 50% !important;
+}
+#adsight-close-button {
+  position: fixed;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+  z-index: 999;
+}
