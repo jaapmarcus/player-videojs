@@ -1,8 +1,8 @@
 adsight_config = {
   'paragraphs': 4,    
   'video' : [
-      { 'url' : 'https://cdn.adsight.nl/BYVhnYMuqXeMOF3HVi1rzXGl1yLzzTzvIJcaHj8Y.mp4' },
-      { 'url' : 'https://cdn.adsight.nl/Tuazx1jOTUVIsK4kcYFrMiW8iCbJlGlwiBBlLPmu.mp4' }
+      { 'url' : 'https://cdn.adsight.nl/AS-tips5.mp4' },
+      { 'url' : 'https://cdn.adsight.nl/AS-tips5.mp4' }
   ],
   'readtext' : 'Je leest nu:<br />',
 }
@@ -65,6 +65,12 @@ params: {
   let isMobile = window.mobileCheck();
 
 window.onload = function () {
+  loadAnchor();
+};
+
+var i = 0;
+function loadAnchor() {
+  console.log(sliderPlaying);
   console.log(adsight_config);
   //check if adsight_config is defined
   if (!document.getElementById('adsight-anchor')) {
@@ -77,24 +83,25 @@ window.onload = function () {
   div = document.createElement('div');
   div.id = 'adsight-video-container';
   parentNode.insertBefore(div, para[adsight_config.paragraphs]);
-    div.innerHTML = `<div id="adsight-video-parent"><video id="adsight-video" controls class="video-js" muted="muted" playsinline="playsinline" preload="metadate" fluid="true">
+    div.innerHTML = `<div id="adsight-video-parent"><video id="adsight-video${i}" controls class="video-js" muted="muted" playsinline="playsinline" preload="metadate" fluid="true">
     Your browser does not support the video tag.
     </video></div><div id="adsight-video-title" class="adsight-slider-header-not-active">${adsight_config.readtext}${document.title} <div id="adsight-close-button"><a href="" id="adsight-close-link-mobile" height="16px" width="16px"><img src="https://cdn.adsight.nl/close-darker.svg" style="max-height:16px !important" /></a></div></div>`;
     div2 = document.createElement('div');   
     div2.id = 'adsight-video-resize';
     parentNode.insertBefore(div2, para[adsight_config.paragraphs]);
   pbjs.que.push(function () {
+
     console.log('Prebid loaded');
     pbjs.setConfig({
         video: {
             providers: [{
-                divId: 'adsight-video',
+                divId: 'adsight-video'+ i,
                 vendorCode: 2, // videojs vendorCode
                 playerConfig: {
                     params: {
                         adPluginConfig: {
-                            numRedirects: 10,
-                            adLabel: "Using Prebid Video Module!"
+                        numRedirects: 10,
+                        adLabel: "Deze advertentie eindigt over",
                         },
                         vendorConfig: {
                             controls: true,
@@ -117,19 +124,28 @@ window.onload = function () {
             allowTargetingKeys: ['BIDDER', 'AD_ID', 'PRICE_BUCKET', 'SIZE', 'DEAL', 'SOURCE', 'FORMAT', 'UUID', 'CACHE_ID', 'CACHE_HOST', 'ADOMAIN']
         },
     });
-
+    adUnits[0].video.divId = 'adsight-video' + i;
     pbjs.addAdUnits(adUnits);
 
     pbjs.onEvent('videoSetupComplete', e => {
-      console.log(adsight_config);
         // Load media with its Metadata when the video player is done instantiating.
-        videojs('adsight-video').loadMedia({
+        videojs('adsight-video' + i).loadMedia({
             id: 'XYXYXYXY',
             src: adsight_config.video[Math.floor(Math.random() * adsight_config.video.length)].url,
             type: 'video/mp4'
         });
-        console.log('The player setup is complete: ', e);
-        window.onscroll = checkScroll;
+      videojs('adsight-video' + i).on('ended', function () {
+        videojs('adsight-video' + i).dispose();
+        document.getElementById('adsight-video-container').remove();
+        console.log(i);
+        i++;
+        sliderPlaying = false;
+        loadAnchor();
+      });
+      window.onscroll = checkScroll;
+      if(sliderActive) {
+        checkScroll();
+      } 
     });
 
     pbjs.onEvent('videoSetupFailed', e => {
@@ -149,9 +165,8 @@ window.onload = function () {
     });
 
     pbjs.requestBids(adUnits);
-});    
-};
-console.log('Prebid loaded');
+}); 
+}
 
 var pbjs = pbjs || {};
 pbjs.que = pbjs.que || [];
@@ -174,14 +189,22 @@ function isElementAboveViewport(element) {
 }
 
 let sliderPlaying = false;
-  
+let sliderActive = false;  
 function checkScroll() {
-    var adsightDivResize = document.getElementById("adsight-video-resize");
+  console.log(i);
+  var adsightDivResize = document.getElementById("adsight-video-resize");
+  if (sliderActive && !sliderPlaying) {
+    sliderPlaying = true;
+    videojs('adsight-video' + i).play();
+
+  }
     if (elementInViewport(adsightDivResize)) {
         if (!sliderPlaying) {
             sliderPlaying = true;
-            console.log('Playing video');
-          videojs('adsight-video').play();
+          console.log('Playing video');
+          console.log(videojs('adsight-video' + i));  
+          videojs('adsight-video' + i).play();
+          sliderActive = true;
         }
         if (!isMobile) {
           if (
