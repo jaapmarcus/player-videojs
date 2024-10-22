@@ -67,11 +67,10 @@ var adUnits = [{
   let isMobile = window.mobileCheck();
 
 window.onload = function () {
-  //loadAnchor();
+  loadAnchor();
   loadClickPlay();
 };
 
-var i = 0;
 
 function loadClickPlay() {
   console.log('adsight click play');
@@ -79,19 +78,11 @@ function loadClickPlay() {
   videojs = Array.from(videojs);
   console.log(videojs); 
   videojs.forEach(function (video) {
-    //check if video has allready an id for it
-    if(!video.getAttribute('id')) {
-      video.setAttribute('id', 'adsight-video' + i);
-    } else {
-      video.setAttribute('id', 'adsight-video' + i);
-    }
-    console.log(i);
-    video.classList.add('video-js'); 
-    
+    console.log(video);
   });
-
 }
 
+var i = 0;
 function loadAnchor() {
   console.log(sliderPlaying);
   console.log(adsight_config);
