@@ -71,6 +71,7 @@ window.onload = function () {
   loadClickPlay();
 };
 
+var i = 0;
 
 function loadClickPlay() {
   console.log('adsight click play');
@@ -78,11 +79,104 @@ function loadClickPlay() {
   videojs = Array.from(videojs);
   console.log(videojs); 
   videojs.forEach(function (video) {
-    console.log(video);
+    video.setAttribute('id', 'adsight-video' + i);
+    console.log(video.id);
+    // Start Prebid
+    pbjs.que.push(function () {
+
+      console.log('Prebid loaded');
+      
+      pbjs.setConfig({
+          video: {
+              providers: [{
+                  divId: 'adsight-video'+ i,
+                  vendorCode: 2, // videojs vendorCode
+                  playerConfig: {
+                      params: {
+                          adPluginConfig: {
+                          numRedirects: 10,
+                          adLabel: "Deze advertentie eindigt over",
+                          },
+                          vendorConfig: {
+                              controls: true,
+                              autoplay: false,
+                              preload: "auto",
+                          }
+                      }
+                  },
+                  // Configure your Ad Server Integration
+                  adServer: {
+                      vendorCode: 'gam',
+                      baseAdTagUrl: 'https://pubads.g.doubleclick.net/gampad/ads?iu=/22999307524/tipsenideetjes.nl/video&description_url=https%3A%2F%2Fwww.tipsenweetjes.nl%2F&tfcd=0&npa=0&sz=400x300%7C640x480&gdfp_req=1&unviewed_position_start=1&output=vast&env=vp&impl=s&correlator='
+                  },
+              },]
+          },
+          cache: {
+              url: 'https://prebid.adnxs.com/pbc/v1/cache'
+          },
+          targetingControls: {
+              allowTargetingKeys: ['BIDDER', 'AD_ID', 'PRICE_BUCKET', 'SIZE', 'DEAL', 'SOURCE', 'FORMAT', 'UUID', 'CACHE_ID', 'CACHE_HOST', 'ADOMAIN']
+          },
+      });
+  
+      pbjs.setConfig({
+        priceGranularity: "high"
+    });
+    pbjs.setConfig({consentManagement: {gdpr: { cmpApi: 'iab', timeout: 500, actionTimeout: 10000, defaultGdprScope: true }}});
+  pbjs.bidderSettings = {
+        standard: {
+  storageAllowed: true
+        }
+  };
+  pbjs.setConfig({
+  userSync: {
+  userIds: [{ name: "criteo" }, {name: "teads"}],
+  filterSettings: { iframe: { bidders: ['criteo','teads','rubicon','smartadserver','appnexus','aniview'], filter: 'include'}}
+  }
+  });
+   pbjs.setConfig({
+        currency: {
+            adServerCurrency: "EUR",
+            conversionRateFile: "https://currency.prebid.org/latest.json"
+        }
+    });
+  
+  
+      console.log(adUnits[0]);
+      //adUnits[0].video = adUnits[0].code = 'adsight-video' + i;
+      adUnits[0].video.divId = 'adsight-video' + i;
+      pbjs.addAdUnits(adUnits);
+  
+      pbjs.onEvent('videoSetupComplete', e => {
+        // Load media with its Metadata when the video player is done instantiating.
+        console.log('Jaap');
+        videojs('adsight-video' + i).build();
+      });
+  
+      pbjs.onEvent('videoSetupFailed', e => {
+          console.log('The player setup failed: ', e);
+      });
+  
+      pbjs.onEvent('videoAdRequest', (e) => {
+          console.log('An ad request was made: ', e);
+      });
+  
+      pbjs.onEvent('videoBidError', e => {
+          console.log('An Ad Error came from a Bid: ', e);
+      });
+  
+      pbjs.onEvent('videoBidImpression', e => {
+          console.log('An Ad Impression came from a Bid: ', e);
+      });
+  
+      pbjs.requestBids(adUnits);
+      }); 
+
+
   });
 }
 
-var i = 0;
+
 function loadAnchor() {
   console.log(sliderPlaying);
   console.log(adsight_config);
