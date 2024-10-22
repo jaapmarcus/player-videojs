@@ -90,6 +90,7 @@ function loadAnchor() {
   if (!document.getElementById('adsight-anchor')) {
       return;
   }
+  console.log('adsight anchor loaded');
   parentNode = document.getElementById('adsight-anchor').parentNode;
   para = parentNode.getElementsByTagName('p');
   para = Array.from(para);
@@ -101,7 +102,8 @@ function loadAnchor() {
     Your browser does not support the video tag.
     </video></div><div id="adsight-video-title" class="adsight-slider-header-not-active">${adsight_config.readtext}${document.title} <div id="adsight-close-button"><a href="" id="adsight-close-link-mobile" height="16px" width="16px"><img src="https://cdn.adsight.nl/close-darker.svg" style="max-height:16px !important" /></a></div></div>`;
     div2 = document.createElement('div');   
-    div2.id = 'adsight-video-resize';
+  div2.id = 'adsight-video-resize';
+  console.log(div2);
     parentNode.insertBefore(div2, para[adsight_config.paragraphs]);
   pbjs.que.push(function () {
 
