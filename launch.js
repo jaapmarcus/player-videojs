@@ -7,42 +7,44 @@ adsight_config = {
   'readtext' : 'Je leest nu:<br />',
 }
 
-  var adUnits = [{
-      code: '/22999307524/tipsenideetjes.nl/video',
-      mediaTypes: {
-          video: {}
-      },
-      video: {
-          divId: 'adsight-video', // required to indicate which player is being used to render this ad unit.
-      },
-      bids: [{
-          bids: [{
-bidder: 'rubicon',
-mediaTypes: {
-  video: {
+var adUnits = [{
+  code: 'adsight-video',
+  mediaTypes: {
+    video: {
       context: 'outstream',
-      playerSize: [[640, 480]],
       mimes: ['video/x-ms-wmv', 'video/mp4'],
+      maxduration: 30,
+      api: [1, 2, 3, ,5, 6],
       protocols: [1, 2, 3, 4, 5, 6, 7, 8],
+      playerSize: [640, 480],
       playbackmethod: [6],
+      placement: 3,
+      plcmt: 4,
       skip: 1,
       linearity: 2
-  }
-},
-params: {
-  accountId: 24676,
-  siteId: 564248,
-  zoneId: 3567354
-}
-}, {
-bidder: 'teads',
-params: {
-  pageId: 148824,
-  placementId: 162940
-}
-}]
-      }]
-  }];
+      }
+  },
+  video: {
+    divId: 'adsight-video',
+  },
+
+  bids: [{
+      bidder: 'rubicon',
+      params: {
+          accountId: 24676,
+          siteId: 564248,
+          zoneId: 3567354
+      }
+  }, {
+      bidder: 'teads',
+      params: {
+          pageId: 148824,
+          placementId: 162940
+      }
+    },
+    { bidder: 'smartadserver', params: { 'networkId': 4411, 'siteId': 678265, 'pageId': 2022362, 'formatId': 135028 }}
+  ]
+}];
 
   window.mobileCheck = function () {
     let check = false;
@@ -66,7 +68,19 @@ params: {
 
 window.onload = function () {
   loadAnchor();
+  loadClickPlay();
 };
+
+
+function loadClickPlay() {
+  console.log('adsight click play');
+  let videojs = document.getElementsByTagName('video');
+  videojs = Array.from(videojs);
+  console.log(videojs); 
+  videojs.forEach(function (video) {
+    console.log(video);
+  });
+}
 
 var i = 0;
 function loadAnchor() {
@@ -92,6 +106,7 @@ function loadAnchor() {
   pbjs.que.push(function () {
 
     console.log('Prebid loaded');
+    
     pbjs.setConfig({
         video: {
             providers: [{
@@ -124,13 +139,39 @@ function loadAnchor() {
             allowTargetingKeys: ['BIDDER', 'AD_ID', 'PRICE_BUCKET', 'SIZE', 'DEAL', 'SOURCE', 'FORMAT', 'UUID', 'CACHE_ID', 'CACHE_HOST', 'ADOMAIN']
         },
     });
+
+    pbjs.setConfig({
+      priceGranularity: "high"
+  });
+  pbjs.setConfig({consentManagement: {gdpr: { cmpApi: 'iab', timeout: 500, actionTimeout: 10000, defaultGdprScope: true }}});
+pbjs.bidderSettings = {
+      standard: {
+storageAllowed: true
+      }
+};
+pbjs.setConfig({
+userSync: {
+userIds: [{ name: "criteo" }, {name: "teads"}],
+filterSettings: { iframe: { bidders: ['criteo','teads','rubicon','smartadserver','appnexus','aniview'], filter: 'include'}}
+}
+});
+ pbjs.setConfig({
+      currency: {
+          adServerCurrency: "EUR",
+          conversionRateFile: "https://currency.prebid.org/latest.json"
+      }
+  });
+
+
+    console.log(adUnits[0]);
+    //adUnits[0].video = adUnits[0].code = 'adsight-video' + i;
     adUnits[0].video.divId = 'adsight-video' + i;
     pbjs.addAdUnits(adUnits);
 
     pbjs.onEvent('videoSetupComplete', e => {
         // Load media with its Metadata when the video player is done instantiating.
         videojs('adsight-video' + i).loadMedia({
-            id: 'XYXYXYXY',
+            id: 'adsight-video-bron',
             src: adsight_config.video[Math.floor(Math.random() * adsight_config.video.length)].url,
             type: 'video/mp4'
         });
